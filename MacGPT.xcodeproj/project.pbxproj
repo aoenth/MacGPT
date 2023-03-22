@@ -11,6 +11,8 @@
 		1564743C29CA51AB00964CA6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1564743B29CA51AB00964CA6 /* ContentView.swift */; };
 		1564743E29CA51AC00964CA6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1564743D29CA51AC00964CA6 /* Assets.xcassets */; };
 		1564744129CA51AC00964CA6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1564744029CA51AC00964CA6 /* Preview Assets.xcassets */; };
+		1564744A29CA51CC00964CA6 /* ChatGPTSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1564744929CA51CC00964CA6 /* ChatGPTSwift */; };
+		1564744C29CA523C00964CA6 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1564744B29CA523C00964CA6 /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +22,7 @@
 		1564743D29CA51AC00964CA6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1564744029CA51AC00964CA6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1564744229CA51AC00964CA6 /* MacGPT.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MacGPT.entitlements; sourceTree = "<group>"; };
+		1564744B29CA523C00964CA6 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -27,6 +30,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1564744A29CA51CC00964CA6 /* ChatGPTSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,6 +57,7 @@
 			isa = PBXGroup;
 			children = (
 				1564743929CA51AB00964CA6 /* MacGPTApp.swift */,
+				1564744B29CA523C00964CA6 /* SettingsView.swift */,
 				1564743B29CA51AB00964CA6 /* ContentView.swift */,
 				1564743D29CA51AC00964CA6 /* Assets.xcassets */,
 				1564744229CA51AC00964CA6 /* MacGPT.entitlements */,
@@ -85,6 +90,9 @@
 			dependencies = (
 			);
 			name = MacGPT;
+			packageProductDependencies = (
+				1564744929CA51CC00964CA6 /* ChatGPTSwift */,
+			);
 			productName = MacGPT;
 			productReference = 1564743629CA51AB00964CA6 /* MacGPT.app */;
 			productType = "com.apple.product-type.application";
@@ -113,6 +121,9 @@
 				Base,
 			);
 			mainGroup = 1564742D29CA51AB00964CA6;
+			packageReferences = (
+				1564744829CA51CB00964CA6 /* XCRemoteSwiftPackageReference "ChatGPTSwift" */,
+			);
 			productRefGroup = 1564743729CA51AB00964CA6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -139,6 +150,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1564744C29CA523C00964CA6 /* SettingsView.swift in Sources */,
 				1564743C29CA51AB00964CA6 /* ContentView.swift in Sources */,
 				1564743A29CA51AB00964CA6 /* MacGPTApp.swift in Sources */,
 			);
@@ -332,6 +344,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1564744829CA51CB00964CA6 /* XCRemoteSwiftPackageReference "ChatGPTSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/alfianlosari/ChatGPTSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1564744929CA51CC00964CA6 /* ChatGPTSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1564744829CA51CB00964CA6 /* XCRemoteSwiftPackageReference "ChatGPTSwift" */;
+			productName = ChatGPTSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1564742E29CA51AB00964CA6 /* Project object */;
 }

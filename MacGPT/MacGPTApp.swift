@@ -9,9 +9,23 @@ import SwiftUI
 
 @main
 struct MacGPTApp: App {
+    @AppStorage("apiKey") private var apiKey = ""
+    @StateObject var interactor = GPTInteractor()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(interactor: interactor)
+                .onAppear {
+                    if !apiKey.isEmpty {
+                        interactor.updateAPIKey(apiKey)
+                    }
+                }
+        }
+        Settings {
+            SettingsView(apiKey: $apiKey)
+        }
+        .onChange(of: apiKey) { newValue in
+            interactor.updateAPIKey(newValue)
         }
     }
 }
