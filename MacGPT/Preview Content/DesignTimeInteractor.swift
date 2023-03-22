@@ -13,11 +13,12 @@ class DesignTimeInteractor: Interactable {
 
     var state: InteractorState = .idle
 
-    var transcript: [AttributedString] = [
-        "I am kinda smart now.",
-        "Hopefully one day I can be smarter with quantum computers.\n"
-    ].map(AttributedString.init)
+    var transcript: [TranscriptionMessage] = [
+        ("I am kinda smart now.", Date(timeIntervalSince1970: 0)),
+        ("Hopefully one day I can be smarter with quantum computers.\n", Date(timeIntervalSince1970: 1))
+    ].map(TranscriptionMessage.init)
 
     func ask(question: String) {}
     func stop() {}
+    func updateBot(_ bot: ChatBot) {}
 }

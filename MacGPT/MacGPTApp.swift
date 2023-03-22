@@ -5,19 +5,20 @@
 //  Created by Peng, Kevin [C] on 2023-03-21.
 //
 
+import ChatGPTSwift
 import SwiftUI
 
 @main
 struct MacGPTApp: App {
     @AppStorage("apiKey") private var apiKey = ""
-    @StateObject var interactor = GPTInteractor()
+    @ObservedObject var interactor = GPTInteractor(bot: EmptyChatBot())
 
     var body: some Scene {
         WindowGroup {
             ContentView(interactor: interactor)
                 .onAppear {
                     if !apiKey.isEmpty {
-                        interactor.updateAPIKey(apiKey)
+                        interactor.updateBot(ChatGPTAPI(apiKey: apiKey))
                     }
                 }
         }
@@ -25,7 +26,11 @@ struct MacGPTApp: App {
             SettingsView(apiKey: $apiKey)
         }
         .onChange(of: apiKey) { newValue in
-            interactor.updateAPIKey(newValue)
+            if newValue.isEmpty {
+                interactor.updateBot(EmptyChatBot())
+            } else {
+                interactor.updateBot(ChatGPTAPI(apiKey: newValue))
+            }
         }
     }
 }

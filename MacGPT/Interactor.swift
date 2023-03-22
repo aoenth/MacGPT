@@ -6,12 +6,21 @@
 //
 
 import AppKit
-import ChatGPTSwift
+
+struct TranscriptionMessage: Identifiable {
+    let message: AttributedString
+    let timestamp: Date
+
+    var id: Date {
+        timestamp
+    }
+}
 
 protocol Interactable: ObservableObject {
     var state: InteractorState { get }
-    var transcript: [AttributedString] { get }
+    var transcript: [TranscriptionMessage] { get }
     var currentResponse: String { get }
+    func updateBot(_ bot: ChatBot)
     func ask(question: String)
     func stop()
 }
@@ -23,9 +32,9 @@ enum InteractorState {
 }
 
 class GPTInteractor: Interactable {
-    @Published private(set) var transcript: [AttributedString] = []
+    @Published private(set) var transcript: [TranscriptionMessage] = []
     @Published private(set) var currentResponse = ""
-    private var api: ChatGPTAPI?
+    private var bot: ChatBot?
     private(set) var state = InteractorState.idle
     private var timeOut: Task<Void, Never>?
     private let attributeContainer: AttributeContainer = {
@@ -34,22 +43,34 @@ class GPTInteractor: Interactable {
         return ac
     }()
 
-    func updateAPIKey(_ apiKey: String) {
-        api = ChatGPTAPI(apiKey: apiKey)
+    init(bot: ChatBot) {
+        self.bot = bot
+    }
+
+    func updateBot(_ bot: ChatBot) {
+        self.bot = bot
     }
 
     func ask(question: String) {
-        transcript.append(AttributedString(question, attributes: attributeContainer))
+        transcript.append(
+            TranscriptionMessage(
+                message: AttributedString(
+                    question,
+                    attributes: attributeContainer
+                ),
+                timestamp: Date()
+            )
+        )
 
         state = .asking
 
         Task {
-            guard let api else {
+            guard let bot else {
                 await appendResponse("You need to configure your API in the settings first.\n")
                 return
             }
             do {
-                let stream = try await api.sendMessageStream(text: question)
+                let stream = try await bot.ask(question: question)
                 state = .writingResponse
                 for try await line in stream {
                     timeOut?.cancel()
@@ -73,7 +94,7 @@ class GPTInteractor: Interactable {
 
     @MainActor
     func commitToChat() {
-        transcript.append(AttributedString(currentResponse))
+        transcript.append(TranscriptionMessage(message: AttributedString(currentResponse), timestamp: Date()))
         currentResponse.removeAll()
     }
 
@@ -95,7 +116,7 @@ class GPTInteractor: Interactable {
 
     @MainActor
     func stop() {
-        appendResponse("\n")
+        appendResponse("\n\n")
         commitToChat()
         state = .idle
     }

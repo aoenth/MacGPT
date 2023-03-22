@@ -18,8 +18,9 @@ struct ContentView<Interactor: Interactable>: View {
             ScrollViewReader { proxy in
                 ScrollView {
                     LazyVStack(alignment: .leading) {
-                        ForEach(interactor.transcript, id: \.self) { line in
-                            Text(line)
+                        ForEach(interactor.transcript) { line in
+                            Text(line.message)
+                                .textSelection(.enabled)
                                 .lineSpacing(1)
                         }
                         Text(interactor.currentResponse)
@@ -36,10 +37,11 @@ struct ContentView<Interactor: Interactable>: View {
             HStack {
                 Image(systemName: "text.bubble")
                     .imageScale(.large)
-                    .foregroundColor(.accentColor)
+                    .foregroundColor(.white)
                 TextField("Prompt", text: $question)
                     .onSubmit(submit)
                 Button("Submit", action: submit)
+                    .disabled(question.isEmpty)
             }
         }
         .padding()

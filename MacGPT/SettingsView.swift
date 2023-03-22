@@ -17,8 +17,12 @@ struct SettingsView: View {
                 .monospaced()
             Button("Save") {
                 apiKey = currentAPIKey
+                NSApplication.shared.keyWindow?.close()
             }
             .disabled(apiKey == currentAPIKey)
+            Button("Cancel") {
+                NSApplication.shared.keyWindow?.close()
+            }
         }
         .padding()
         .onAppear {
