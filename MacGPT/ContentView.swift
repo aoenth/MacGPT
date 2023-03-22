@@ -38,16 +38,33 @@ struct ContentView<Interactor: Interactable>: View {
                 Image(systemName: "text.bubble")
                     .imageScale(.large)
                     .foregroundColor(.white)
-                TextField("Prompt", text: $question)
-                    .onSubmit(submit)
-                Button("Submit", action: submit)
-                    .disabled(question.isEmpty)
+                TextField("Ask a question. ⌥ + Return for a new line. ⌘ + Return to submit.", text: $question, axis: .vertical)
+                    .lineLimit(4 ... 10)
+                VStack {
+                    Button("Submit", action: submit)
+                        .keyboardShortcut(.return)
+                        .disabled(question.isEmpty || exceededLimit)
+                    VStack(spacing: 1) {
+                        Text("\(question.count)")
+                        Divider()
+                        Text("2,048")
+                    }
+                    .monospacedDigit()
+                    .frame(width: 40)
+                    .padding(2)
+                    .border(exceededLimit ? Color.red : .clear)
+                }
             }
         }
         .padding()
     }
 
+    var exceededLimit: Bool {
+        question.count > 2048
+    }
+
     func submit() {
+        guard !exceededLimit else { return }
         interactor.ask(question: question)
         question.removeAll()
     }
