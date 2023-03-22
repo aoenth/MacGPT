@@ -37,9 +37,11 @@ struct ContentView<Interactor: Interactable>: View {
             HStack {
                 Image(systemName: "text.bubble")
                     .imageScale(.large)
-                    .foregroundColor(.white)
-                TextField("Ask a question. ⌥ + Return for a new line. ⌘ + Return to submit.", text: $question, axis: .vertical)
-                    .lineLimit(4 ... 10)
+                    .foregroundColor(.primary)
+                TextEditor(text: $question)
+                    .font(.subheadline)
+                    .lineLimit(4)
+                    .border(Color.gray)
                 VStack {
                     Button("Submit", action: submit)
                         .keyboardShortcut(.return)
