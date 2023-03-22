@@ -45,7 +45,7 @@ class GPTInteractor: Interactable {
 
         Task {
             guard let api else {
-                await appendResponse("You need to configure your API in the settings first.")
+                await appendResponse("You need to configure your API in the settings first.\n")
                 return
             }
             do {
