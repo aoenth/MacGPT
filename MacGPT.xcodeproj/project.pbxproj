@@ -13,6 +13,8 @@
 		1564744129CA51AC00964CA6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1564744029CA51AC00964CA6 /* Preview Assets.xcassets */; };
 		1564744A29CA51CC00964CA6 /* ChatGPTSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1564744929CA51CC00964CA6 /* ChatGPTSwift */; };
 		1564744C29CA523C00964CA6 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1564744B29CA523C00964CA6 /* SettingsView.swift */; };
+		1564744E29CA8FD900964CA6 /* Interactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1564744D29CA8FD900964CA6 /* Interactor.swift */; };
+		1564745029CA8FF700964CA6 /* DesignTimeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1564744F29CA8FF700964CA6 /* DesignTimeInteractor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +25,8 @@
 		1564744029CA51AC00964CA6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1564744229CA51AC00964CA6 /* MacGPT.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MacGPT.entitlements; sourceTree = "<group>"; };
 		1564744B29CA523C00964CA6 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		1564744D29CA8FD900964CA6 /* Interactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interactor.swift; sourceTree = "<group>"; };
+		1564744F29CA8FF700964CA6 /* DesignTimeInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignTimeInteractor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +62,7 @@
 			children = (
 				1564743929CA51AB00964CA6 /* MacGPTApp.swift */,
 				1564744B29CA523C00964CA6 /* SettingsView.swift */,
+				1564744D29CA8FD900964CA6 /* Interactor.swift */,
 				1564743B29CA51AB00964CA6 /* ContentView.swift */,
 				1564743D29CA51AC00964CA6 /* Assets.xcassets */,
 				1564744229CA51AC00964CA6 /* MacGPT.entitlements */,
@@ -70,6 +75,7 @@
 			isa = PBXGroup;
 			children = (
 				1564744029CA51AC00964CA6 /* Preview Assets.xcassets */,
+				1564744F29CA8FF700964CA6 /* DesignTimeInteractor.swift */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -152,6 +158,8 @@
 			files = (
 				1564744C29CA523C00964CA6 /* SettingsView.swift in Sources */,
 				1564743C29CA51AB00964CA6 /* ContentView.swift in Sources */,
+				1564744E29CA8FD900964CA6 /* Interactor.swift in Sources */,
+				1564745029CA8FF700964CA6 /* DesignTimeInteractor.swift in Sources */,
 				1564743A29CA51AB00964CA6 /* MacGPTApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
