@@ -66,6 +66,7 @@
 				1564744B29CA523C00964CA6 /* SettingsView.swift */,
 				1564743B29CA51AB00964CA6 /* ContentView.swift */,
 				1564744D29CA8FD900964CA6 /* Interactor.swift */,
+				1564744F29CA8FF700964CA6 /* DesignTimeInteractor.swift */,
 				1564745129CA983100964CA6 /* ChatBot */,
 				1564743D29CA51AC00964CA6 /* Assets.xcassets */,
 				1564744229CA51AC00964CA6 /* MacGPT.entitlements */,
@@ -78,7 +79,6 @@
 			isa = PBXGroup;
 			children = (
 				1564744029CA51AC00964CA6 /* Preview Assets.xcassets */,
-				1564744F29CA8FF700964CA6 /* DesignTimeInteractor.swift */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
