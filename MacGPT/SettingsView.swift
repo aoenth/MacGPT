@@ -13,15 +13,19 @@ struct SettingsView: View {
 
     var body: some View {
         VStack {
-            TextField("API Key", text: $currentAPIKey)
-                .monospaced()
-            Button("Save") {
-                apiKey = currentAPIKey
-                NSApplication.shared.keyWindow?.close()
+            LabeledContent("API Key") {
+                TextField("API Key", text: $currentAPIKey)
+                    .monospaced()
             }
-            .disabled(apiKey == currentAPIKey)
-            Button("Cancel") {
-                NSApplication.shared.keyWindow?.close()
+            HStack {
+                Button("Save") {
+                    apiKey = currentAPIKey
+                    NSApplication.shared.keyWindow?.close()
+                }
+                .disabled(apiKey == currentAPIKey)
+                Button("Cancel") {
+                    NSApplication.shared.keyWindow?.close()
+                }
             }
         }
         .padding()
