@@ -55,12 +55,12 @@ struct ContentView<Interactor: Interactable>: View {
     var chatTranscript: some View {
         ScrollViewReader { proxy in
             ScrollView {
+                Text("Program is " + String(describing: interactor.state.rawValue.capitalized))
+                    .id(0)
                 LazyVStack(alignment: .leading) {
-                    Text("")
-                        .id(0)
                     ForEach(interactor.transcript) { line in
                         HStack(alignment: .bottom) {
-                            Text(AttributedString(line.message, attributes: attributeContainer))
+                            Text(AttributedString(line.message, attributes: line.type == .question ? attributeContainer : AttributeContainer()))
                                 .textSelection(.enabled)
                                 .lineSpacing(1)
                             Spacer()
@@ -80,12 +80,15 @@ struct ContentView<Interactor: Interactable>: View {
                         .padding()
                         .lineSpacing(1)
                 }
-                Text("Program is " + String(describing: interactor.state.rawValue.capitalized))
+                Text("")
                     .id(1)
             }
             .onAppear {
                 scrollToBottom = { proxy.scrollTo(1) }
                 scrollToTop = { proxy.scrollTo(0) }
+            }
+            .onChange(of: interactor.transcript.count) { newValue in
+                scrollToBottom?()
             }
             .onChange(of: interactor.currentResponse) { newValue in
                 scrollToBottom?()

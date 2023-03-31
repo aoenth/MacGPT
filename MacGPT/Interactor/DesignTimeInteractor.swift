@@ -14,13 +14,14 @@ class DesignTimeInteractor: ObservableObject, Interactable {
     var state: InteractorState = .idle
 
     @Published var transcript: [TranscriptionMessage] = (-15 ..< -1).map {
-        ("I am kinda smart now.", Date(timeIntervalSince1970: TimeInterval($0)))
+        ("I am kinda smart now.", TranscriptionMessage.MessageType.answer, Date(timeIntervalSince1970: TimeInterval($0)))
     }.map(TranscriptionMessage.init)
 
     private var index = 0
     private var task: Task<Void, Error>?
 
     func ask(question: String) {
+        transcript.append(.init(message: question, type: .question))
         let index = index
         state = .asking
         self.task = Task.detached { [weak self] in
@@ -30,7 +31,13 @@ class DesignTimeInteractor: ObservableObject, Interactable {
                 Task { @MainActor [weak self] in
                     guard let self else { return }
                     self.state = .idle
-                    self.transcript.append(TranscriptionMessage(message: .init(self.currentResponse), timestamp: Date()))
+                    self.transcript.append(
+                        TranscriptionMessage(
+                            message: .init(self.currentResponse),
+                            type: TranscriptionMessage.MessageType.answer,
+                            timestamp: Date()
+                        )
+                    )
                     self.currentResponse.removeAll()
                 }
             }

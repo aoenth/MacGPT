@@ -11,15 +11,22 @@ import Pasteboard
 struct TranscriptionMessage: Identifiable {
 
     let message: String
+    let type: MessageType
     let timestamp: Date
 
-    init(message: String, timestamp: Date = Date()) {
+    init(message: String, type: MessageType, timestamp: Date = Date()) {
         self.message = message
+        self.type = type
         self.timestamp = timestamp
     }
 
     var id: Date {
         timestamp
+    }
+
+    enum MessageType {
+        case question
+        case answer
     }
 }
 
