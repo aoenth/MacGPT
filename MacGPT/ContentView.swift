@@ -52,6 +52,23 @@ struct ContentView<Interactor: Interactable>: View {
         }
     }
 
+    func messageBlock(_ line: TranscriptionMessage) -> some View {
+        HStack(alignment: .bottom) {
+            Text(AttributedString(line.message, attributes: line.type == .question ? attributeContainer : AttributeContainer()))
+                .textSelection(.enabled)
+                .lineSpacing(1)
+            Spacer()
+            Button {
+                interactor.copyMessage(line.message)
+            } label: {
+                Image(systemName: "clipboard")
+            }
+            .onHover { isHovered in
+                hoveredTranscriptTimestamp = isHovered ? line.timestamp : nil
+            }
+        }
+    }
+
     var chatTranscript: some View {
         ScrollViewReader { proxy in
             ScrollView {
@@ -59,22 +76,9 @@ struct ContentView<Interactor: Interactable>: View {
                     .id(0)
                 LazyVStack(alignment: .leading) {
                     ForEach(interactor.transcript) { line in
-                        HStack(alignment: .bottom) {
-                            Text(AttributedString(line.message, attributes: line.type == .question ? attributeContainer : AttributeContainer()))
-                                .textSelection(.enabled)
-                                .lineSpacing(1)
-                            Spacer()
-                            Button {
-                                interactor.copyMessage(line.message)
-                            } label: {
-                                Image(systemName: "clipboard")
-                            }
-                            .onHover { isHovered in
-                                hoveredTranscriptTimestamp = isHovered ? line.timestamp : nil
-                            }
-                        }
-                        .padding()
-                        .background(line.timestamp == hoveredTranscriptTimestamp ? Color(white: 1, opacity: 0.1) : Color.clear)
+                        messageBlock(line)
+                            .padding()
+                            .background(line.timestamp == hoveredTranscriptTimestamp ? Color(white: 1, opacity: 0.1) : Color.clear)
                     }
                     Text(interactor.currentResponse)
                         .padding()
