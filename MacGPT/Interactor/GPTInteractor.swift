@@ -41,7 +41,7 @@ class GPTInteractor: Interactable {
         Task {
             do {
                 let stream = try await bot.ask(question: question)
-                state = .writingResponse
+                await setState(.writingResponse)
                 for try await line in stream {
                     timeOut?.cancel()
                     guard state == .writingResponse else {
@@ -55,7 +55,7 @@ class GPTInteractor: Interactable {
                 await appendResponse(error.localizedDescription)
             }
             await appendResponse("\n")
-            state = .idle
+            await setState(.idle)
             timeOut?.cancel()
             timeOut = nil
             await commitToChat()
@@ -67,6 +67,11 @@ class GPTInteractor: Interactable {
         let response = currentResponse
         currentResponse.removeAll()
         transcript.append(TranscriptionMessage(message: response, type: .answer))
+    }
+
+    @MainActor
+    func setState(_ newState: InteractorState) async {
+        state = newState
     }
 
     func startTimeout() {
