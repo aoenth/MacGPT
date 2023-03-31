@@ -27,9 +27,19 @@ struct ContentView<Interactor: Interactable>: View {
                 ScrollView {
                     LazyVStack(alignment: .leading) {
                         ForEach(interactor.transcript) { line in
-                            Text(line.message)
-                                .textSelection(.enabled)
-                                .lineSpacing(1)
+                            HStack(alignment: .bottom) {
+                                Text(line.message)
+                                    .textSelection(.enabled)
+                                    .lineSpacing(1)
+                                Spacer()
+                                Button {
+                                    /// Using this syntax for conversion for performance reasons. See https://forums.swift.org/t/attributedstring-to-string/61667
+                                    let string = String(line.message.characters[...])
+                                    interactor.copyMessage(string)
+                                } label: {
+                                    Image(systemName: "clipboard")
+                                }
+                            }
                         }
                         Text(interactor.currentResponse)
                             .lineSpacing(1)
