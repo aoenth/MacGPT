@@ -16,6 +16,7 @@
 		1564744E29CA8FD900964CA6 /* Interactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1564744D29CA8FD900964CA6 /* Interactor.swift */; };
 		1564745029CA8FF700964CA6 /* DesignTimeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1564744F29CA8FF700964CA6 /* DesignTimeInteractor.swift */; };
 		1564745329CA984000964CA6 /* ChatBot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1564745229CA984000964CA6 /* ChatBot.swift */; };
+		1588558329D73F3200402A80 /* GPTInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1588558229D73F3200402A80 /* GPTInteractor.swift */; };
 		15D83A5729D721F7006746EF /* Pasteboard in Frameworks */ = {isa = PBXBuildFile; productRef = 15D83A5629D721F7006746EF /* Pasteboard */; };
 /* End PBXBuildFile section */
 
@@ -30,6 +31,7 @@
 		1564744D29CA8FD900964CA6 /* Interactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interactor.swift; sourceTree = "<group>"; };
 		1564744F29CA8FF700964CA6 /* DesignTimeInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignTimeInteractor.swift; sourceTree = "<group>"; };
 		1564745229CA984000964CA6 /* ChatBot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBot.swift; sourceTree = "<group>"; };
+		1588558229D73F3200402A80 /* GPTInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPTInteractor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,8 +69,7 @@
 				1564743929CA51AB00964CA6 /* MacGPTApp.swift */,
 				1564744B29CA523C00964CA6 /* SettingsView.swift */,
 				1564743B29CA51AB00964CA6 /* ContentView.swift */,
-				1564744D29CA8FD900964CA6 /* Interactor.swift */,
-				1564744F29CA8FF700964CA6 /* DesignTimeInteractor.swift */,
+				1588558429D73F5700402A80 /* Interactor */,
 				1564745129CA983100964CA6 /* ChatBot */,
 				1564743D29CA51AC00964CA6 /* Assets.xcassets */,
 				1564744229CA51AC00964CA6 /* MacGPT.entitlements */,
@@ -91,6 +92,16 @@
 				1564745229CA984000964CA6 /* ChatBot.swift */,
 			);
 			path = ChatBot;
+			sourceTree = "<group>";
+		};
+		1588558429D73F5700402A80 /* Interactor */ = {
+			isa = PBXGroup;
+			children = (
+				1564744D29CA8FD900964CA6 /* Interactor.swift */,
+				1588558229D73F3200402A80 /* GPTInteractor.swift */,
+				1564744F29CA8FF700964CA6 /* DesignTimeInteractor.swift */,
+			);
+			path = Interactor;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -177,6 +188,7 @@
 				1564745029CA8FF700964CA6 /* DesignTimeInteractor.swift in Sources */,
 				1564743A29CA51AB00964CA6 /* MacGPTApp.swift in Sources */,
 				1564745329CA984000964CA6 /* ChatBot.swift in Sources */,
+				1588558329D73F3200402A80 /* GPTInteractor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,8 +11,17 @@ import SwiftUI
 @main
 struct MacGPTApp: App {
     @AppStorage("apiKey") private var apiKey = ""
-//    @ObservedObject var interactor = GPTInteractor(bot: EmptyChatBot())
-    @ObservedObject var interactor = DesignTimeInteractor()
+    @ObservedObject var interactor = GPTInteractor(
+        bot: EmptyChatBot(),
+        attributeContainer: {
+            var ac = AttributeContainer()
+            #if os(macOS)
+            ac.font = .systemFont(ofSize: NSFont.systemFontSize, weight: .bold)
+            #endif
+            return ac
+        }()
+    )
+//    @ObservedObject var interactor = DesignTimeInteractor()
 
     var body: some Scene {
         WindowGroup {

@@ -1,44 +1,11 @@
 //
-//  Interactor.swift
+//  GPTInteractor.swift
 //  MacGPT
 //
-//  Created by Peng, Kevin [C] on 2023-03-21.
+//  Created by Peng, Kevin [C] on 2023-03-31.
 //
 
 import AppKit
-import Pasteboard
-
-struct TranscriptionMessage: Identifiable {
-    let message: AttributedString
-    let timestamp: Date
-
-    var id: Date {
-        timestamp
-    }
-}
-
-protocol Interactable: ObservableObject {
-    var state: InteractorState { get }
-    var transcript: [TranscriptionMessage] { get }
-    var currentResponse: String { get }
-    func clearHistory()
-    func updateBot(_ bot: ChatBot)
-    func ask(question: String)
-    func stop()
-    func copyMessage(_ message: String)
-}
-
-extension Interactable {
-    func copyMessage(_ message: String) {
-        setPasteboardContent(message)
-    }
-}
-
-enum InteractorState: String {
-    case idle
-    case asking
-    case writingResponse = "Writing Response"
-}
 
 class GPTInteractor: Interactable {
 
@@ -48,14 +15,11 @@ class GPTInteractor: Interactable {
 
     private var bot: ChatBot
     private var timeOut: Task<Void, Never>?
-    private let attributeContainer: AttributeContainer = {
-        var ac = AttributeContainer()
-        ac.font = .systemFont(ofSize: NSFont.systemFontSize, weight: .bold)
-        return ac
-    }()
-
-    init(bot: ChatBot) {
+    private let attributeContainer: AttributeContainer
+    
+    init(bot: ChatBot, attributeContainer: AttributeContainer) {
         self.bot = bot
+        self.attributeContainer = attributeContainer
     }
 
     func updateBot(_ bot: ChatBot) {
