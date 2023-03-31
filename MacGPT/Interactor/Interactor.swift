@@ -9,8 +9,14 @@ import AppKit
 import Pasteboard
 
 struct TranscriptionMessage: Identifiable {
-    let message: AttributedString
+
+    let message: String
     let timestamp: Date
+
+    init(message: String, timestamp: Date = Date()) {
+        self.message = message
+        self.timestamp = timestamp
+    }
 
     var id: Date {
         timestamp

@@ -15,6 +15,14 @@ struct ContentView<Interactor: Interactable>: View {
     @State private var scrollToTop: (() -> Void)?
     @State private var hoveredTranscriptTimestamp: Date?
 
+    private let attributeContainer = {
+        var ac = AttributeContainer()
+#if os(macOS)
+        ac.font = .systemFont(ofSize: NSFont.systemFontSize, weight: .bold)
+#endif
+        return ac
+    }()
+
     var body: some View {
         VStack {
             commandButtons
@@ -52,14 +60,12 @@ struct ContentView<Interactor: Interactable>: View {
                         .id(0)
                     ForEach(interactor.transcript) { line in
                         HStack(alignment: .bottom) {
-                            Text(line.message)
+                            Text(AttributedString(line.message, attributes: attributeContainer))
                                 .textSelection(.enabled)
                                 .lineSpacing(1)
                             Spacer()
                             Button {
-                                /// Using this syntax for conversion for performance reasons. See https://forums.swift.org/t/attributedstring-to-string/61667
-                                let string = String(line.message.characters[...])
-                                interactor.copyMessage(string)
+                                interactor.copyMessage(line.message)
                             } label: {
                                 Image(systemName: "clipboard")
                             }

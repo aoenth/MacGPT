@@ -34,10 +34,7 @@ class GPTInteractor: Interactable {
     func ask(question: String) {
         transcript.append(
             TranscriptionMessage(
-                message: AttributedString(
-                    question,
-                    attributes: attributeContainer
-                ),
+                message: question,
                 timestamp: Date()
             )
         )
@@ -72,7 +69,7 @@ class GPTInteractor: Interactable {
     func commitToChat() async {
         let response = currentResponse
         currentResponse.removeAll()
-        transcript.append(TranscriptionMessage(message: AttributedString(response), timestamp: Date()))
+        transcript.append(TranscriptionMessage(message: response))
     }
 
     func startTimeout() {
