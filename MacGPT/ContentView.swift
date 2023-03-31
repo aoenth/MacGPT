@@ -11,73 +11,106 @@ import SwiftUI
 struct ContentView<Interactor: Interactable>: View {
     @ObservedObject var interactor: Interactor
     @State private var question = ""
+    @State private var scrollToBottom: (() -> Void)?
+    @State private var scrollToTop: (() -> Void)?
+    @State private var hoveredTranscriptTimestamp: Date?
 
     var body: some View {
         VStack {
-            Text("Program is " + String(describing: interactor.state))
-            HStack {
-                Button("Stop Generating") {
-                    interactor.stop()
-                }
-                Button("Clear History") {
-                    interactor.clearHistory()
-                }
-            }
-            ScrollViewReader { proxy in
-                ScrollView {
-                    LazyVStack(alignment: .leading) {
-                        ForEach(interactor.transcript) { line in
-                            HStack(alignment: .bottom) {
-                                Text(line.message)
-                                    .textSelection(.enabled)
-                                    .lineSpacing(1)
-                                Spacer()
-                                Button {
-                                    /// Using this syntax for conversion for performance reasons. See https://forums.swift.org/t/attributedstring-to-string/61667
-                                    let string = String(line.message.characters[...])
-                                    interactor.copyMessage(string)
-                                } label: {
-                                    Image(systemName: "clipboard")
-                                }
-                            }
-                        }
-                        Text(interactor.currentResponse)
-                            .lineSpacing(1)
-                    }
-                    EmptyView()
-                        .id(0)
-                }
-                .onChange(of: interactor.currentResponse) { newValue in
-                    proxy.scrollTo(0)
-                }
-            }
-            .frame(height: 400)
+            commandButtons
 
-            HStack {
-                Image(systemName: "text.bubble")
-                    .imageScale(.large)
-                    .foregroundColor(.primary)
-                TextEditor(text: $question)
-                    .font(.subheadline)
-                    .lineLimit(4)
-                    .border(Color.gray)
-                VStack {
-                    Button("Submit", action: submit)
-                        .keyboardShortcut(.return)
-                        .disabled(question.isEmpty || exceededLimit)
-                    VStack(spacing: 1) {
-                        Text("\(question.count)")
-                        Divider()
-                        Text("2,048")
-                    }
-                    .monospacedDigit()
-                    .frame(width: 40)
-                    .padding(2)
-                    .border(exceededLimit ? Color.red : .clear)
-                }
-            }
+            chatTranscript
+                .frame(height: 400)
+
+            chatInput
         }
         .padding()
+    }
+
+    var commandButtons: some View {
+        HStack {
+            Button("Stop Generating") {
+                interactor.stop()
+            }
+            Button("Clear History") {
+                interactor.clearHistory()
+            }
+            Button("Scroll to Top") {
+                scrollToTop?()
+            }
+            Button("Scroll to Bottom") {
+                scrollToBottom?()
+            }
+        }
+    }
+
+    var chatTranscript: some View {
+        ScrollViewReader { proxy in
+            ScrollView {
+                LazyVStack(alignment: .leading) {
+                    Text("")
+                        .id(0)
+                    ForEach(interactor.transcript) { line in
+                        HStack(alignment: .bottom) {
+                            Text(line.message)
+                                .textSelection(.enabled)
+                                .lineSpacing(1)
+                            Spacer()
+                            Button {
+                                /// Using this syntax for conversion for performance reasons. See https://forums.swift.org/t/attributedstring-to-string/61667
+                                let string = String(line.message.characters[...])
+                                interactor.copyMessage(string)
+                            } label: {
+                                Image(systemName: "clipboard")
+                            }
+                            .onHover { isHovered in
+                                hoveredTranscriptTimestamp = isHovered ? line.timestamp : nil
+                            }
+                        }
+                        .padding()
+                        .background(line.timestamp == hoveredTranscriptTimestamp ? Color(white: 1, opacity: 0.1) : Color.clear)
+                    }
+                    Text(interactor.currentResponse)
+                        .padding()
+                        .lineSpacing(1)
+                }
+                Text("Program is " + String(describing: interactor.state.rawValue.capitalized))
+                    .id(1)
+            }
+            .onAppear {
+                scrollToBottom = { proxy.scrollTo(1) }
+                scrollToTop = { proxy.scrollTo(0) }
+            }
+            .onChange(of: interactor.currentResponse) { newValue in
+                scrollToBottom?()
+            }
+        }
+    }
+
+    var chatInput: some View {
+        HStack {
+            Image(systemName: "text.bubble")
+                .imageScale(.large)
+                .foregroundColor(.primary)
+            TextEditor(text: $question)
+                .font(.subheadline)
+                .lineLimit(4)
+                .border(Color.gray)
+            VStack {
+                Button("Submit", action: submit)
+                    .keyboardShortcut(.return)
+                    .disabled(question.isEmpty || exceededLimit)
+                VStack(spacing: 1) {
+                    Text("\(question.count)")
+                    Divider()
+                    Text("2,048")
+                }
+                .monospacedDigit()
+                .frame(width: 40)
+                .padding(2)
+                .border(exceededLimit ? Color.red : .clear)
+            }
+        }
     }
 
     var exceededLimit: Bool {

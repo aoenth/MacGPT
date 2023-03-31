@@ -34,18 +34,19 @@ extension Interactable {
     }
 }
 
-enum InteractorState {
+enum InteractorState: String {
     case idle
     case asking
-    case writingResponse
+    case writingResponse = "Writing Response"
 }
 
 class GPTInteractor: Interactable {
 
     @Published private(set) var transcript: [TranscriptionMessage] = []
     @Published private(set) var currentResponse = ""
+    @Published private(set) var state = InteractorState.idle
+
     private var bot: ChatBot
-    private(set) var state = InteractorState.idle
     private var timeOut: Task<Void, Never>?
     private let attributeContainer: AttributeContainer = {
         var ac = AttributeContainer()
@@ -104,9 +105,10 @@ class GPTInteractor: Interactable {
     }
 
     @MainActor
-    func commitToChat() {
-        transcript.append(TranscriptionMessage(message: AttributedString(currentResponse), timestamp: Date()))
+    func commitToChat() async {
+        let response = currentResponse
         currentResponse.removeAll()
+        transcript.append(TranscriptionMessage(message: AttributedString(response), timestamp: Date()))
     }
 
     func startTimeout() {
@@ -116,19 +118,20 @@ class GPTInteractor: Interactable {
             } catch {
                 return
             }
-            await self?.stop()
+            self?.stop()
         }
     }
 
     @MainActor
-    func appendResponse(_ text: String) {
+    func appendResponse(_ text: String) async {
         currentResponse += text
     }
 
-    @MainActor
     func stop() {
-        appendResponse("\n\n")
-        commitToChat()
-        state = .idle
+        Task {
+            await appendResponse("\n\n")
+            await commitToChat()
+            state = .idle
+        }
     }
 }
