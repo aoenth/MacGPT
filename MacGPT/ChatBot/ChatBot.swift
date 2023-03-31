@@ -10,11 +10,16 @@ import Foundation
 
 protocol ChatBot {
     func ask(question: String) async throws -> AsyncThrowingStream<String, Error>
+    func clearHistory()
 }
 
 extension ChatGPTAPI: ChatBot {
     func ask(question: String) async throws -> AsyncThrowingStream<String, Error> {
         try await sendMessageStream(text: question)
+    }
+
+    func clearHistory() {
+        deleteHistoryList()
     }
 }
 
@@ -25,4 +30,6 @@ struct EmptyChatBot: ChatBot {
             continuation.finish()
         }
     }
+
+    func clearHistory() {}
 }

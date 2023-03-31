@@ -20,6 +20,7 @@ protocol Interactable: ObservableObject {
     var state: InteractorState { get }
     var transcript: [TranscriptionMessage] { get }
     var currentResponse: String { get }
+    func clearHistory()
     func updateBot(_ bot: ChatBot)
     func ask(question: String)
     func stop()
@@ -34,7 +35,7 @@ enum InteractorState {
 class GPTInteractor: Interactable {
     @Published private(set) var transcript: [TranscriptionMessage] = []
     @Published private(set) var currentResponse = ""
-    private var bot: ChatBot?
+    private var bot: ChatBot
     private(set) var state = InteractorState.idle
     private var timeOut: Task<Void, Never>?
     private let attributeContainer: AttributeContainer = {
@@ -51,6 +52,11 @@ class GPTInteractor: Interactable {
         self.bot = bot
     }
 
+    func clearHistory() {
+        bot.clearHistory()
+        transcript.removeAll()
+    }
+
     func ask(question: String) {
         transcript.append(
             TranscriptionMessage(
@@ -65,10 +71,6 @@ class GPTInteractor: Interactable {
         state = .asking
 
         Task {
-            guard let bot else {
-                await appendResponse("You need to configure your API in the settings first.\n")
-                return
-            }
             do {
                 let stream = try await bot.ask(question: question)
                 state = .writingResponse

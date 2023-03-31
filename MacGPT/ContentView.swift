@@ -15,6 +15,14 @@ struct ContentView<Interactor: Interactable>: View {
     var body: some View {
         VStack {
             Text("Program is " + String(describing: interactor.state))
+            HStack {
+                Button("Stop Generating") {
+                    interactor.stop()
+                }
+                Button("Clear History") {
+                    interactor.clearHistory()
+                }
+            }
             ScrollViewReader { proxy in
                 ScrollView {
                     LazyVStack(alignment: .leading) {
@@ -25,8 +33,9 @@ struct ContentView<Interactor: Interactable>: View {
                         }
                         Text(interactor.currentResponse)
                             .lineSpacing(1)
-                            .id(0)
                     }
+                    EmptyView()
+                        .id(0)
                 }
                 .onChange(of: interactor.currentResponse) { newValue in
                     proxy.scrollTo(0)

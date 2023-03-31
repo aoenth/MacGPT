@@ -21,4 +21,8 @@ class DesignTimeInteractor: Interactable {
     func ask(question: String) {}
     func stop() {}
     func updateBot(_ bot: ChatBot) {}
+
+    func clearHistory() {
+        transcript.removeAll()
+    }
 }
