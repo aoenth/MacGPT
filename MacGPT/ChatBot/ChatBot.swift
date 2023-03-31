@@ -10,12 +10,17 @@ import Foundation
 
 protocol ChatBot {
     func ask(question: String) async throws -> AsyncThrowingStream<String, Error>
+    func message(at index: Int) -> String
     func clearHistory()
 }
 
 extension ChatGPTAPI: ChatBot {
     func ask(question: String) async throws -> AsyncThrowingStream<String, Error> {
         try await sendMessageStream(text: question)
+    }
+
+    func message(at index: Int) -> String {
+        historyList[index].content
     }
 
     func clearHistory() {
@@ -32,4 +37,8 @@ struct EmptyChatBot: ChatBot {
     }
 
     func clearHistory() {}
+
+    func message(at index: Int) -> String {
+        "Your API key is not configured."
+    }
 }

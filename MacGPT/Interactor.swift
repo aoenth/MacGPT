@@ -6,6 +6,7 @@
 //
 
 import AppKit
+import Pasteboard
 
 struct TranscriptionMessage: Identifiable {
     let message: AttributedString
@@ -24,6 +25,18 @@ protocol Interactable: ObservableObject {
     func updateBot(_ bot: ChatBot)
     func ask(question: String)
     func stop()
+    func copyMessage(at index: Int)
+}
+
+extension Interactable {
+    func copyMessage(at index: Int) {
+        let message = transcript[index].message
+
+        /// Using this syntax for conversion for performance reasons. See https://forums.swift.org/t/attributedstring-to-string/61667
+        let string = String(message.characters[...])
+
+        setPasteboardContent(string)
+    }
 }
 
 enum InteractorState {
@@ -33,6 +46,7 @@ enum InteractorState {
 }
 
 class GPTInteractor: Interactable {
+
     @Published private(set) var transcript: [TranscriptionMessage] = []
     @Published private(set) var currentResponse = ""
     private var bot: ChatBot
@@ -122,5 +136,4 @@ class GPTInteractor: Interactable {
         commitToChat()
         state = .idle
     }
-
 }

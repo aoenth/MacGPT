@@ -16,6 +16,7 @@
 		1564744E29CA8FD900964CA6 /* Interactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1564744D29CA8FD900964CA6 /* Interactor.swift */; };
 		1564745029CA8FF700964CA6 /* DesignTimeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1564744F29CA8FF700964CA6 /* DesignTimeInteractor.swift */; };
 		1564745329CA984000964CA6 /* ChatBot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1564745229CA984000964CA6 /* ChatBot.swift */; };
+		15D83A5729D721F7006746EF /* Pasteboard in Frameworks */ = {isa = PBXBuildFile; productRef = 15D83A5629D721F7006746EF /* Pasteboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1564744A29CA51CC00964CA6 /* ChatGPTSwift in Frameworks */,
+				15D83A5729D721F7006746EF /* Pasteboard in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,6 +111,7 @@
 			name = MacGPT;
 			packageProductDependencies = (
 				1564744929CA51CC00964CA6 /* ChatGPTSwift */,
+				15D83A5629D721F7006746EF /* Pasteboard */,
 			);
 			productName = MacGPT;
 			productReference = 1564743629CA51AB00964CA6 /* MacGPT.app */;
@@ -140,6 +143,7 @@
 			mainGroup = 1564742D29CA51AB00964CA6;
 			packageReferences = (
 				1564744829CA51CB00964CA6 /* XCRemoteSwiftPackageReference "ChatGPTSwift" */,
+				15D83A5529D721F7006746EF /* XCRemoteSwiftPackageReference "Pasteboard" */,
 			);
 			productRefGroup = 1564743729CA51AB00964CA6 /* Products */;
 			projectDirPath = "";
@@ -374,6 +378,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		15D83A5529D721F7006746EF /* XCRemoteSwiftPackageReference "Pasteboard" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/aoenth/Pasteboard";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -381,6 +393,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1564744829CA51CB00964CA6 /* XCRemoteSwiftPackageReference "ChatGPTSwift" */;
 			productName = ChatGPTSwift;
+		};
+		15D83A5629D721F7006746EF /* Pasteboard */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 15D83A5529D721F7006746EF /* XCRemoteSwiftPackageReference "Pasteboard" */;
+			productName = Pasteboard;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
